@@ -5,10 +5,10 @@
 
 class Cena
 {
-public: 
+public:
 
 private:
+	int id;
 	string texto;
 	vector<Escolha> escolhas; // Possiveis escolhas
 };
-

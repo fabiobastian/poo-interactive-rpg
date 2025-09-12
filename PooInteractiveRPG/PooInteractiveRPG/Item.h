@@ -14,9 +14,9 @@ public:
 	float getBonusDefesa();
 
 private:
+	int id;
 	string nome;
 	char tipo; // A - Armadura, W - Arma, K - Key
 	float bonusAtaque;
 	float bonusDefesa;
 };
-

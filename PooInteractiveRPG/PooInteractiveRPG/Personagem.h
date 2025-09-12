@@ -10,8 +10,8 @@ public:
 	~Personagem();
 
 protected:
+	int id;
 	float habilidade;
 	float energia;
 	float sorte;
 };
-

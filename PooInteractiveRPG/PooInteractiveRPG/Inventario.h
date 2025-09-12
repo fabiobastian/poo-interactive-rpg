@@ -12,10 +12,10 @@ public:
 	~Inventario();
 
 private:
+	int id;
 	vector<Item> itens;
 	Item armaduraEquipada;
 	Item armaEquipada;
 	int quantidadeTesouros;
 	int quantidadeMantimentos;
 };
-

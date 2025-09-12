@@ -11,8 +11,8 @@ public:
 	~Escolha();
 
 private:
+	int id;
 	string texto;
-	int proximaCena;
+	int idProximaCena;
 	Item itemNecessario; // Se for null, não precisa de item para realizar a escolha
 };
-

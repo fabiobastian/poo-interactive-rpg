@@ -12,4 +12,3 @@ private:
 	Inimigo inimigo;
 	bool permiteFugir;
 };
-
