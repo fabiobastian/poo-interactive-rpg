@@ -11,6 +11,7 @@ public:
 
 protected:
 	int id;
+	string nome;
 	float habilidade;
 	float energia;
 	float sorte; // Sempre que for usada perde 1 ponto

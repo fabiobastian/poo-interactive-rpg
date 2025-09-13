@@ -10,7 +10,7 @@ class Inventario
 public:
 	Inventario();
 	~Inventario();
-
+	
 private:
 	int id;
 	vector<Item> itens; // Prestar atenção em não colocar itens repetidos
