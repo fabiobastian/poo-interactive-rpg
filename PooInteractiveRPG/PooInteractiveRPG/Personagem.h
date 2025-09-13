@@ -13,5 +13,5 @@ protected:
 	int id;
 	float habilidade;
 	float energia;
-	float sorte;
+	float sorte; // Sempre que for usada perde 1 ponto
 };

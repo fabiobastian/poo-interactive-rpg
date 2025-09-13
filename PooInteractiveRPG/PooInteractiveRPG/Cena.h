@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Escolha.h"
+#include "Decisao.h"
 
 class Cena
 {
@@ -9,6 +9,7 @@ public:
 
 private:
 	int id;
+	int nivel;
 	string texto;
-	vector<Escolha> escolhas; // Possiveis escolhas
+	vector<Decisao> decisoes; // Possiveis escolhas
 };

@@ -10,7 +10,7 @@ public:
 	~Inimigo();
 
 private:
-	char nivel; // I - Inicial, M - Médio, D - Difícil
+	int nivel;
 	int quantidadeMantimentos;
 	vector<Item> itens;
 };

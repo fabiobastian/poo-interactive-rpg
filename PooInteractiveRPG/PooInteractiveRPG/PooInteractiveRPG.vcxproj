@@ -125,21 +125,24 @@
   <ItemGroup>
     <ClInclude Include="Cena.h" />
     <ClInclude Include="CenaBatalha.h" />
-    <ClInclude Include="Escolha.h" />
+    <ClInclude Include="Decisao.h" />
     <ClInclude Include="Inimigo.h" />
     <ClInclude Include="Inventario.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Jogador.h" />
+    <ClInclude Include="Jogo.h" />
     <ClInclude Include="Personagem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cena.cpp" />
     <ClCompile Include="CenaBatalha.cpp" />
-    <ClCompile Include="Escolha.cpp" />
+    <ClCompile Include="Decisao.cpp" />
     <ClCompile Include="Inimigo.cpp" />
     <ClCompile Include="Inventario.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Jogador.cpp" />
+    <ClCompile Include="Jogo.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Personagem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

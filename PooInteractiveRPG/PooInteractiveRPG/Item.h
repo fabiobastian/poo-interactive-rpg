@@ -10,13 +10,11 @@ public:
 	~Item();
 	string getNome();
 	string getTipo();
-	float getBonusAtaque();
-	float getBonusDefesa();
+	float getBonus();
 
 private:
 	int id;
 	string nome;
-	char tipo; // A - Armadura, W - Arma, K - Key
-	float bonusAtaque;
-	float bonusDefesa;
+	char tipo; // A - Armadura, W - Arma
+	float bonus; // Se for A - o bonus será de defesa, se for W - o bonus será de ataque
 };

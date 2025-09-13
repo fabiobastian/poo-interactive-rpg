@@ -13,9 +13,9 @@ public:
 
 private:
 	int id;
-	vector<Item> itens;
+	vector<Item> itens; // Prestar atenção em não colocar itens repetidos
 	Item armaduraEquipada;
 	Item armaEquipada;
-	int quantidadeTesouros;
-	int quantidadeMantimentos;
+	int quantidadeTesouros; // Somente usada para carregar o score do jogador
+	int quantidadeMantimentos; // 1 mantimento recarrega 1 ponto de energia
 };
