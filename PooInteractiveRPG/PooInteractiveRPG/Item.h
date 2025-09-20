@@ -8,8 +8,12 @@ class Item
 public:
 	Item();
 	~Item();
+	Item(int id, string nome, char tipo, float bonus);
+	string serialize() const;
+	static Item deserialize(const string& data);
+	int getId();
 	string getNome();
-	string getTipo();
+	char getTipo();
 	float getBonus();
 
 private:

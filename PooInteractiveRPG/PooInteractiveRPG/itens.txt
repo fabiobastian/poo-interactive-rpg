@@ -1,0 +1,3 @@
+1;Espada;W;15.5
+2;Escudo;A;10.0
+3;Arco;W;12.3

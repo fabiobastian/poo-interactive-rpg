@@ -132,6 +132,7 @@
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
     <ClInclude Include="Personagem.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cena.cpp" />
@@ -144,6 +145,15 @@
     <ClCompile Include="Jogo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Personagem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="cenas.txt" />
+    <Text Include="decisoes.txt" />
+    <Text Include="inimigos.txt" />
+    <Text Include="inventarios.txt" />
+    <Text Include="itens.txt" />
+    <Text Include="jogador.txt" />
+    <Text Include="jogos.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

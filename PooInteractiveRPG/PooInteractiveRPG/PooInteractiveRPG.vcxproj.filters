@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{3f6d51cc-bc61-4279-b760-648398f5e054}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Personagem.h">
@@ -40,6 +43,9 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="Jogo.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,5 +80,28 @@
     <ClCompile Include="main.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="itens.txt">
+      <Filter>data</Filter>
+    </Text>
+    <Text Include="inventarios.txt">
+      <Filter>data</Filter>
+    </Text>
+    <Text Include="cenas.txt">
+      <Filter>data</Filter>
+    </Text>
+    <Text Include="jogador.txt">
+      <Filter>data</Filter>
+    </Text>
+    <Text Include="inimigos.txt">
+      <Filter>data</Filter>
+    </Text>
+    <Text Include="decisoes.txt">
+      <Filter>data</Filter>
+    </Text>
+    <Text Include="jogos.txt">
+      <Filter>data</Filter>
+    </Text>
   </ItemGroup>
 </Project>
