@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -11,10 +12,12 @@ public:
 	Item(int id, string nome, char tipo, float bonus);
 	string serialize() const;
 	static Item deserialize(const string& data);
-	int getId();
-	string getNome();
-	char getTipo();
-	float getBonus();
+	static string findById(int id);
+	static vector<Item> findAllByIds(string data);
+	int getId() const;
+	string getNome() const;
+	char getTipo() const;
+	float getBonus() const;
 
 private:
 	int id;
