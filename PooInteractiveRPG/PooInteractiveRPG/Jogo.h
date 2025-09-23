@@ -10,6 +10,12 @@ class Jogo
 public:
 	Jogo();
 	~Jogo();
+	Jogo(int id, Jogador jogador, vector<Cena> cenasVisitadas);
+	string serialize() const;
+	static Jogo deserialize(const string& data);
+	static string findById(int id);
+	void save() const;
+	Jogador& getJogador();
 
 private:
 	int id;

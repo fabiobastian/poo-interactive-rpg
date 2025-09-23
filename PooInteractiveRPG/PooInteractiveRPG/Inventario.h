@@ -23,6 +23,9 @@ public:
 	void adicionarMantimento(int quantidade);
 	void usarMantimento(int quantidade);
 	int getId() const;
+	vector<Item> getItens() const;
+	Item getArmaduraEquipada() const;
+	Item getArmaEquipada() const;
 
 private:
 	int id;

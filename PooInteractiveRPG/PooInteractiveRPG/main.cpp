@@ -6,31 +6,29 @@
 #include "Inventario.h"
 #include "Jogador.h"
 #include "Inimigo.h"
+#include "Jogo.h"
 
 using namespace std;
 
 int main()
 {
-	Inventario inventario = Inventario::deserialize(Inventario::findById(2));
+	Jogo jogo = Jogo::deserialize(Jogo::findById(1));
+	cout << "JOGO";
+	cout << "\n" + jogo.serialize();
 
-	cout << "INVENTARIO\n" + inventario.serialize();
-	inventario.adicionarItem(Item::deserialize(Item::findById(1)));
-	inventario.equiparArmadura(Item::deserialize(Item::findById(2)));
-	inventario.save();
-	cout << "\n" + inventario.serialize();
-
-	Jogador jogador = Jogador::deserialize(Jogador::findById(1));
-
-	cout << "\nJOGADOR\n" + jogador.serialize();
-	cout << "\n" + jogador.getInventario().serialize();
-	//jogador.getInventario().adicionarTesouro(100);
-	cout << "\n" + jogador.getInventario().serialize();
-	jogador.save();
+	Jogador jogador = jogo.getJogador();
+	cout << "\nJOGADOR";
 	cout << "\n" + jogador.serialize();
 
-	Inimigo inimigo = Inimigo::deserialize(Inimigo::findById(1));
+	Inventario inventario = jogador.getInventario();
+	cout << "\nINVENTARIO";
+	cout << "\n" + inventario.serialize();
 
-	cout << "\nINIMIGO\n" + inimigo.serialize();
+	vector<Item> itens = inventario.getItens();
+	cout << "\nQTD";
+	cout << "\n" + to_string(itens.size());
+	cout << "\n" + itens[0].serialize();
+	cout << "\n" + itens[1].serialize();
 
 	return 0;
 }

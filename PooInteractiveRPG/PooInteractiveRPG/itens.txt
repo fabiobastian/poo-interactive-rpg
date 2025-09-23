@@ -1,3 +1,30 @@
-1;Espada;W;15.5
-2;Escudo;A;10.0
-3;Arco;W;12.3
+1;Espada de Madeira;W;10.0
+2;Escudo de Madeira;A;12.0
+3;Adaga Simples;W;14.0
+4;Arco Curto;W;15.0
+5;Luvas de Ferro;A;16.0
+6;Botas de Couro;A;17.0
+7;Cota de Malha Simples;A;18.0
+8;Espada Curta;W;19.0
+9;Armadura de Couro;A;20.0
+10;Adaga Envenenada;W;21.0
+11;Cajado de Madeira;W;22.0
+12;Escudo de Bronze;A;23.0
+13;Machado Pequeno;W;24.0
+14;Elmo de Ferro;A;25.0
+15;Arco Longo;W;26.0
+16;Espada de Fogo;W;27.0
+17;Cajado Mágico;W;28.0
+18;Escudo Aço Forjado;A;29.0
+19;Martelo de Titânio;W;30.0
+20;Elmo Real;A;32.0
+21;Cota de Malha Reforçada;A;33.0
+22;Lança do Campeão;W;35.0
+23;Armadura de Platina;A;37.0
+24;Machado de Guerra;W;38.0
+25;Arco Épico;W;40.0
+26;Escudo do Dragão;A;45.0
+27;Espada de Prata;W;47.0
+28;Cajado do Mago Supremo;W;48.0
+29;Espada Lendária;W;50.0
+30;Armadura do Rei Dragão;A;55.0

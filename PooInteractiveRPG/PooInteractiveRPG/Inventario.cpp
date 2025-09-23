@@ -146,6 +146,21 @@ int Inventario::getId() const
     return this->id;
 }
 
+vector<Item> Inventario::getItens() const
+{
+    return this->itens;
+}
+
+Item Inventario::getArmaduraEquipada() const
+{
+    return this->armaduraEquipada;
+}
+
+Item Inventario::getArmaEquipada() const
+{
+    return this->armaEquipada;
+}
+
 string Inventario::findById(int id) {
     ifstream file(FILE_NAME);
     if (!file.is_open()) {

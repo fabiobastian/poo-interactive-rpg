@@ -13,6 +13,10 @@ public:
 	static string findById(int id);
 	void save() const;
 	Inventario& getInventario(); // &Inventario retorna a referencia não uma copia 
+	int getId() const;
+	float atacar(float multiplicador = 1.0f) override;
+	float tomarDano(float danoBruto) override;
+	bool testarSorte();
 
 private:
 	Inventario inventario;

@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 
 #define FILE_NAME "jogadores.txt"
 
@@ -133,4 +135,32 @@ void Jogador::save() const
 Inventario& Jogador::getInventario()
 {
     return this->inventario;
+}
+
+int Jogador::getId() const
+{
+    return this->id;
+}
+
+float Jogador::atacar(float multiplicador)
+{
+    return (this->habilidade + this->inventario.getArmaEquipada().getBonus()) * multiplicador;
+}
+
+float Jogador::tomarDano(float danoBruto)
+{
+    return this->energia -= (this->inventario.getArmaduraEquipada().getBonus() + danoBruto);
+}
+
+bool Jogador::testarSorte()
+{
+    std::srand(std::time(nullptr)); // inicializa a semente com o tempo atual
+    int numero = (std::rand() % 8) + 1;
+    if (numero > this->sorte)
+    {
+        return false;
+    }
+    // Se caso ganhar na sorte, diminui sua sorte
+    this->sorte -= 1;
+    return true;
 }

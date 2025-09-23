@@ -12,3 +12,22 @@ Personagem::Personagem(int id, string nome, float habilidade, float energia, flo
     this->energia = energia;
     this->sorte = sorte;
 }
+
+float Personagem::atacar()
+{
+    return this->habilidade;
+}
+
+float Personagem::atacar(float multiplicador)
+{
+    return this->habilidade * multiplicador;
+}
+
+float Personagem::tomarDano(float danoBruto)
+{
+    if (danoBruto < 0)
+    {
+        return 0.0f;
+    }
+    return this->energia - danoBruto;
+}
