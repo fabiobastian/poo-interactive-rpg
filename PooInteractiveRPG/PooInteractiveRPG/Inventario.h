@@ -22,6 +22,7 @@ public:
 	void adicionarTesouro(int quantidade);
 	void adicionarMantimento(int quantidade);
 	void usarMantimento(int quantidade);
+	int getId() const;
 
 private:
 	int id;

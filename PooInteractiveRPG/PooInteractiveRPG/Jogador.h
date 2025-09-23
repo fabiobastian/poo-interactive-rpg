@@ -7,6 +7,12 @@ class Jogador : public Personagem
 public: 
 	Jogador();
 	~Jogador();
+	Jogador(int id, string nome, float habilidade, float energia, float sorte, Inventario inventario);
+	string serialize() const;
+	static Jogador deserialize(const string& data);
+	static string findById(int id);
+	void save() const;
+	Inventario& getInventario(); // &Inventario retorna a referencia não uma copia 
 
 private:
 	Inventario inventario;

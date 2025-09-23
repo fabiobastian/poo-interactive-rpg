@@ -88,6 +88,10 @@ void Inventario::removerItem(const Item& item)
 
 void Inventario::equiparArmadura(const Item& item)
 {
+    if (item.getTipo() != 'A')
+    {
+        return;
+    }
     for (const auto& it : this->itens) {
         if (it.getId() == item.getId()) {
             this->armaduraEquipada = item;
@@ -98,6 +102,10 @@ void Inventario::equiparArmadura(const Item& item)
 
 void Inventario::equiparArma(const Item& item)
 {
+    if (item.getTipo() != 'W')
+    {
+        return;
+    }
     for (const auto& it : this->itens) {
         if (it.getId() == item.getId()) {
             this->armaEquipada = item;
@@ -131,6 +139,11 @@ void Inventario::usarMantimento(int quantidade)
         return;
     }
     this->quantidadeMantimentos -= quantidade;
+}
+
+int Inventario::getId() const
+{
+    return this->id;
 }
 
 string Inventario::findById(int id) {

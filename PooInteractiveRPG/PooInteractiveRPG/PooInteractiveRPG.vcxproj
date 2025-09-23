@@ -152,7 +152,7 @@
     <Text Include="inimigos.txt" />
     <Text Include="inventarios.txt" />
     <Text Include="itens.txt" />
-    <Text Include="jogador.txt" />
+    <Text Include="jogadores.txt" />
     <Text Include="jogos.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

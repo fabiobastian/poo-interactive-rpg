@@ -91,7 +91,7 @@
     <Text Include="cenas.txt">
       <Filter>data</Filter>
     </Text>
-    <Text Include="jogador.txt">
+    <Text Include="jogadores.txt">
       <Filter>data</Filter>
     </Text>
     <Text Include="inimigos.txt">
