@@ -16,6 +16,7 @@ public:
 	static string findById(int id);
 	void save() const;
 	Jogador& getJogador();
+	vector<Cena> getCenas() const;
 
 private:
 	int id;

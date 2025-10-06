@@ -28,7 +28,7 @@ string Inventario::serialize() const
     for (size_t i = 0; i < itens.size(); ++i) {
         itensId += std::to_string(itens[i].getId());
         if (i < itens.size() - 1) {
-            itensId += ","; // adiciona o separador, exceto no último
+            itensId += ","; // adiciona o separador, exceto no últimoa
         }
     }
 

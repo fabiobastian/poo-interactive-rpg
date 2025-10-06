@@ -17,7 +17,7 @@ public:
 	int getId() const;
 	string getNome() const;
 	char getTipo() const;
-	float getBonus() const;
+	float getBonus() const;//
 
 private:
 	int id;
