@@ -148,3 +148,26 @@ vector<Cena> Jogo::getCenas() const
 {
     return this->cenasVisitadas;
 }
+
+vector<Jogo> Jogo::findAll()
+{
+    vector<Jogo> jogos = {};
+    ifstream file(FILE_NAME);
+    if (!file.is_open()) {
+        throw runtime_error("Não foi possível abrir o arquivo: " + string(FILE_NAME));
+    }
+
+    string line;
+    while (getline(file, line)) {
+        if (line.empty()) continue;
+
+        jogos.push_back(Jogo::deserialize(line));
+    }
+
+    return jogos;
+}
+
+int Jogo::getId() const
+{
+    return this->id;
+}

@@ -31,3 +31,8 @@ float Personagem::tomarDano(float danoBruto)
     }
     return this->energia - danoBruto;
 }
+
+string Personagem::getNome() const
+{
+    return this->nome;
+}

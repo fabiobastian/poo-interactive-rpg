@@ -17,6 +17,8 @@ public:
 	void save() const;
 	Jogador& getJogador();
 	vector<Cena> getCenas() const;
+	static vector<Jogo> findAll();
+	int getId() const;
 
 private:
 	int id;

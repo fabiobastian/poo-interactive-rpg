@@ -12,6 +12,7 @@ public:
 	float atacar();
 	virtual float atacar(float multiplicador = 1.0f);
 	virtual float tomarDano(float danoBruto);
+	string getNome() const;
 
 protected:
 	int id;

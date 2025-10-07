@@ -26,6 +26,8 @@ public:
 	vector<Item> getItens() const;
 	Item getArmaduraEquipada() const;
 	Item getArmaEquipada() const;
+	int getQuantidadeTesouros() const;
+	int getQuantidadeMantimentos() const;
 
 private:
 	int id;

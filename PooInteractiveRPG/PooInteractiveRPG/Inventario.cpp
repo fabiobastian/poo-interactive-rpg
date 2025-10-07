@@ -161,6 +161,16 @@ Item Inventario::getArmaEquipada() const
     return this->armaEquipada;
 }
 
+int Inventario::getQuantidadeTesouros() const
+{
+    return this->quantidadeTesouros;
+}
+
+int Inventario::getQuantidadeMantimentos() const
+{
+    return this->quantidadeMantimentos;
+}
+
 string Inventario::findById(int id) {
     ifstream file(FILE_NAME);
     if (!file.is_open()) {
