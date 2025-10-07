@@ -18,7 +18,7 @@ public:
 	void adicionarDecisao(const Decisao& item);
 	void removerDecisao(const Decisao& item);
 	static string findById(int id);
-	vector<Cena> findAllByIds(string data);
+	static vector<Cena> findAllByIds(string data);
 	//getters
 	int getId() const;
 	vector<Decisao> getDecisoes() const;

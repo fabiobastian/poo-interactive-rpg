@@ -53,7 +53,7 @@ Jogo Jogo::deserialize(const string& data)
     }
 
     Jogador jogador = Jogador::deserialize(Jogador::findById(stoi(partes[1])));
-    vector<Cena> cenas = {};/*Cena::findAllByIds(partes[2]);*/
+    vector<Cena> cenas = Cena::findAllByIds(partes[2]);
 
     return Jogo(
         stoi(partes[0]),    // id

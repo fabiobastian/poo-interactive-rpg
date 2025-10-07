@@ -7,6 +7,7 @@
 #include "Jogador.h"
 #include "Inimigo.h"
 #include "Jogo.h"
+#include "Cena.h"
 
 using namespace std;
 
@@ -41,4 +42,4 @@ int main()
 	cout << "\n" + cena.serialize();
 
 	return 0;
-}
+} 

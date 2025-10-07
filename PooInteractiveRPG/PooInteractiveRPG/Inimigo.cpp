@@ -71,7 +71,7 @@ Inimigo Inimigo::deserialize(const string& data)
         partes.push_back(parte);
     }
 
-    if (partes.size() != 8) {
+    if (partes.size() != 9) {
         throw runtime_error("Formato inválido para Inventario::deserialize");
     }
 

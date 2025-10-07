@@ -18,7 +18,7 @@ int Decisao::getId() const
 }
 
 //construtor
-Decisao::Decisao(int id, string texto,int idProximaCena, Item itemNecessario)
+Decisao::Decisao(int id, string texto, int idProximaCena, Item itemNecessario)
 {
     this->id = id;
     this->texto = texto;
@@ -68,23 +68,34 @@ vector<Decisao> Decisao::findAllByIds(string data)
     return decisoes;
 }
 
+// Usar uma forma diferente de retirar os dados por conta de erros com campos vazios
+static vector<string> splitPreserveEmpty(const string& s, char delim) {
+    vector<string> out;
+    size_t start = 0;
+    size_t pos;
+    while ((pos = s.find(delim, start)) != string::npos) {
+        out.push_back(s.substr(start, pos - start));
+        start = pos + 1;
+    }
+    // último campo (pode ser vazio)
+    out.push_back(s.substr(start));
+    return out;
+}
 
 Decisao Decisao::deserialize(const string& data)
 {
-    vector<string> partes;
-    stringstream ss(data);
-    string parte;
+    auto partes = splitPreserveEmpty(data, ';');
 
-    while (getline(ss, parte, ';')) {
-        partes.push_back(parte);
-    }
-
-    if (partes.size() < 3)
+    if (partes.size() != 4)
     {
         throw runtime_error("Formato inválido para Item::deserialize");
     }
 
-    Item item = Item::deserialize(Item::findById(stoi(partes[3])));
+    Item item = Item::Item();
+    
+    if (!partes[3].empty()) {
+        item = Item::deserialize(Item::findById(stoi(partes[3])));
+    }
 
     return Decisao(
         stoi(partes[0]),    // id

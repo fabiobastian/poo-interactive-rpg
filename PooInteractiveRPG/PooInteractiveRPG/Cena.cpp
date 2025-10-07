@@ -10,18 +10,8 @@
 
 #define FILE_NAME "cenas.txt"
 
-vector<Cena> Cena::findAllByIds(string data) { return {}; }
-
-Cena::Cena()
-{
-    id = 0;
-    texto = 'l';
-    decisoes = {};
-}
-
-Cena::~Cena()
-{
-}
+Cena::Cena() {}
+Cena::~Cena() {}
 
 
 //construtor
@@ -42,7 +32,7 @@ string Cena::serialize() const
     string decisoesId;
 
     for (size_t i = 0; i < decisoes.size(); ++i) {
-        decisoesId += std::to_string(1/*decisoes[i].getId()*/);
+        decisoesId += std::to_string(decisoes[i].getId());
         if (i < decisoes.size() - 1) {
             decisoesId += ","; // adiciona o separador, exceto no últimoa
         }
@@ -63,30 +53,21 @@ Cena Cena::deserialize(const string& data)
         partes.push_back(parte);
     }
 
-    if (partes.size() != 7) {// nao lembro se size == 8
+    if (partes.size() != 7) {// nao lembro se size == 8, eh 7 mesmo
         throw runtime_error("Formato inválido para Cena::deserialize");
     }
 
-    //Inimigo inimigo = Inimigo::deserialize(Inimigo::Inimigo());
     //inicializa inimigo
-    Inimigo inimigo = Inimigo::InimigoVazio();
-    //caso o id do inimigo vazio
-    int idInimigo = partes[5].empty() ? 0 : std::stoi(partes[5]);
-    if (idInimigo != 0) {
-        Inimigo inimigo = Inimigo::deserialize(Inimigo::findById(idInimigo));
-    }
-    else {
-        cout << "\nCena sem inimigo";
+    Inimigo inimigo = Inimigo::Inimigo();
+;
+    if (!partes[5].empty()) {
+        Inimigo inimigo = Inimigo::deserialize(Inimigo::findById(stoi(partes[5])));
     }
 
-    //nao funciona                                                              <-<----
-    //vector<Decisao> decisoes = Decisao::findAllByIds(partes[4]);
-    vector<Decisao> decisoes = {};
-    //decisoes.push_back(Decisao::decisaoVazio());
-
+    vector<Decisao> decisoes = Decisao::findAllByIds(partes[4]);;
 
     //em caso de bool pode-fugir vazio
-    int valor = partes[5].empty() ? 0 : std::stoi(partes[5]);
+    bool permiteFugir = partes[5] == "1" ? true : false;
 
 
     //retorna objeto do arquivo
@@ -96,7 +77,7 @@ Cena Cena::deserialize(const string& data)
         partes[2][0],          //tipo -> errado
         partes[3],          //texto
         inimigo,            
-        valor,
+        permiteFugir,
         decisoes /*stoi(partes[6])*/
         // exemplo 15;8;B;Dragão adulto guarda o castelo final.;14,20,25;18;0
  
@@ -159,6 +140,25 @@ string Cena::findById(int id) {
     }
 
     return ""; // não encontrou
+}
+
+vector<Cena> Cena::findAllByIds(string data)
+{
+    vector<Cena> cenas;
+    istringstream ss(data);
+    string idStr;
+
+    while (getline(ss, idStr, ',')) { // separa por vírgula
+        if (idStr.empty()) continue;
+
+        string linha = Cena::findById(stoi(idStr));
+
+        if (!linha.empty()) {
+            cenas.push_back(Cena::deserialize(linha));
+        }
+    }
+
+    return cenas;
 }
 
 
