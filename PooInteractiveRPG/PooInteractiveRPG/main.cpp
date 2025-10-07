@@ -95,7 +95,7 @@ void telaInicial()
 void iniciarNovoJogo()
 {
 	Jogador jogador = criarJogador();
-	Jogo jogo = Jogo(retornoProximoId(FILE_JOGO), jogador, {});
+	Jogo jogo = Jogo(retornoProximoId(FILE_JOGO), jogador, {Cena::deserialize(Cena::findById(1))});
 
 	// jogo.save(); // Deixar comentado por enquanto, não ficar salvando um monte de personagens
 }
