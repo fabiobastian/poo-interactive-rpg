@@ -7,11 +7,18 @@
 #include "Jogador.h"
 #include "Inimigo.h"
 #include "Jogo.h"
+#include "Cena.h"
 
 using namespace std;
 
 int main()
 {
+	//start
+	void carregarDecisaoDoArquivo(int id, string texto, int idProximaCena, Item itemNecessario);
+
+	std::cout << "Hello World" << std::endl;
+
+	//stop
 	Jogo jogo = Jogo::deserialize(Jogo::findById(1));
 	cout << "JOGO";
 	cout << "\n" + jogo.serialize();
@@ -30,5 +37,9 @@ int main()
 	cout << "\n" + itens[0].serialize();
 	cout << "\n" + itens[1].serialize();
 
+	Cena cena = Cena::deserialize(Cena::findById(1));
+	cout << "\nCENA";
+	cout << "\n" + cena.serialize();
+
 	return 0;
-}
+} 

@@ -143,3 +143,8 @@ Jogador& Jogo::getJogador()
 {
     return this->jogador;
 }
+
+vector<Cena> Jogo::getCenas() const
+{
+    return this->cenasVisitadas;
+}

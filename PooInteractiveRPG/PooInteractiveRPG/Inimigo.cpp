@@ -8,8 +8,29 @@
 
 #define FILE_NAME "inimigos.txt"
 
-Inimigo::Inimigo(){}
+Inimigo::Inimigo(){
+    id = 0;
+    nome = 'n';
+    habilidade = 0.0;
+    energia = 0.0;
+    sorte = 0.0;
+    nivel = 0;
+    quantidadeMantimentos = 0;
+    itens = {};
+}
+
+Inimigo Inimigo::InimigoVazio() {
+    Inimigo inimigoVazio = Inimigo();
+
+    return inimigoVazio;
+}
+
 Inimigo::~Inimigo(){}
+
+int Inimigo::getId() const
+{
+    return this->id;
+}
 
 Inimigo::Inimigo(int id, string nome, float habilidade, float energia, float sorte, int nivel, int quantidadeMantimentos, vector<Item> itens)
     : Personagem(id, nome, habilidade, energia, sorte)
@@ -50,7 +71,7 @@ Inimigo Inimigo::deserialize(const string& data)
         partes.push_back(parte);
     }
 
-    if (partes.size() != 8) {
+    if (partes.size() != 9) {
         throw runtime_error("Formato inválido para Inventario::deserialize");
     }
 
