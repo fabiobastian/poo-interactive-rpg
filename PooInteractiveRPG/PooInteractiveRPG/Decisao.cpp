@@ -17,6 +17,21 @@ int Decisao::getId() const
     return this->id;
 }
 
+string Decisao::getTexto() const
+{
+    return this->texto;
+}
+
+int Decisao::getIdProximaCena() const
+{
+    return this->idProximaCena;
+}
+
+Item Decisao::getItemNescessario() const
+{
+    return this->itemNecessario;
+}
+
 //construtor
 Decisao::Decisao(int id, string texto, int idProximaCena, Item itemNecessario)
 {

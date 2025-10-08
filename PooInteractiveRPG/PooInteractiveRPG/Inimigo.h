@@ -14,6 +14,9 @@ public:
 	static Inimigo deserialize(const string& data);
 	static string findById(int id);
 	int getId() const;
+	int getNivel() const;
+	int getQuantidadeMantimentos() const;
+	vector<Item> getItens() const;
 
 private:
 	int nivel;

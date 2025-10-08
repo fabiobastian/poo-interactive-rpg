@@ -13,7 +13,7 @@ Personagem::Personagem(int id, string nome, float habilidade, float energia, flo
     this->sorte = sorte;
 }
 
-float Personagem::atacar()
+float Personagem::atacar() const
 {
     return this->habilidade;
 }
@@ -35,4 +35,9 @@ float Personagem::tomarDano(float danoBruto)
 string Personagem::getNome() const
 {
     return this->nome;
+}
+
+float Personagem::getEnergia() const
+{
+    return this->energia;
 }

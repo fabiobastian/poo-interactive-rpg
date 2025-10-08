@@ -61,13 +61,13 @@ Cena Cena::deserialize(const string& data)
     Inimigo inimigo = Inimigo::Inimigo();
 ;
     if (!partes[5].empty()) {
-        Inimigo inimigo = Inimigo::deserialize(Inimigo::findById(stoi(partes[5])));
+        inimigo = Inimigo::deserialize(Inimigo::findById(stoi(partes[5])));
     }
 
     vector<Decisao> decisoes = Decisao::findAllByIds(partes[4]);;
 
     //em caso de bool pode-fugir vazio
-    bool permiteFugir = partes[5] == "1" ? true : false;
+    bool permiteFugir = partes[6] == "1" ? true : false;
 
 
     //retorna objeto do arquivo
@@ -115,8 +115,28 @@ int Cena::getId() const
 
 string Cena::getTexto() { return this->texto; }
 
+Inimigo Cena::getInimigo() const
+{
+    return this->inimigo;
+}
+
+bool Cena::getPermiteFugir()
+{
+    return this->permiteFugir;
+}
+
+int Cena::getNivel()
+{
+    return this->nivel;
+}
+
 //const -> constante -> nao sera alterado
 vector<Decisao> Cena::getDecisoes() const{ return this->decisoes; }
+
+char Cena::getTipoCena()
+{
+    return this->tipo;
+}
 
 //findbyid
 string Cena::findById(int id) {

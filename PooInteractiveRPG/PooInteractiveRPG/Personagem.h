@@ -9,10 +9,11 @@ public:
 	Personagem();
 	~Personagem();
 	Personagem(int id, string nome, float habilidade, float energia, float sorte);
-	float atacar();
+	float atacar() const;
 	virtual float atacar(float multiplicador = 1.0f);
 	virtual float tomarDano(float danoBruto);
 	string getNome() const;
+	float getEnergia() const;
 
 protected:
 	int id;

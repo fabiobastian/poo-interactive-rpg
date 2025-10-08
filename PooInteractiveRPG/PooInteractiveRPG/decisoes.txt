@@ -3,7 +3,7 @@
 3;Abrir a porta trancada;4;1
 4;Entrar na sala dos esqueletos;5;
 5;Atacar o inimigo;6;
-6;Fugir do combate;7;
+6;Fugir do combate;2;
 7;Abrir o baú;8;3
 8;Pegar a chave dourada;9;2
 9;Seguir pela ponte;10;

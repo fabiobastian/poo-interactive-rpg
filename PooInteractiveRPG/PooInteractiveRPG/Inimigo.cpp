@@ -32,6 +32,21 @@ int Inimigo::getId() const
     return this->id;
 }
 
+int Inimigo::getNivel() const
+{
+    return this->nivel;
+}
+
+int Inimigo::getQuantidadeMantimentos() const
+{
+    return this->quantidadeMantimentos;
+}
+
+vector<Item> Inimigo::getItens() const
+{
+    return this->itens;
+}
+
 Inimigo::Inimigo(int id, string nome, float habilidade, float energia, float sorte, int nivel, int quantidadeMantimentos, vector<Item> itens)
     : Personagem(id, nome, habilidade, energia, sorte)
 {
@@ -71,7 +86,7 @@ Inimigo Inimigo::deserialize(const string& data)
         partes.push_back(parte);
     }
 
-    if (partes.size() != 9) {
+    if (partes.size() != 8) {
         throw runtime_error("Formato inválido para Inventario::deserialize");
     }
 

@@ -26,6 +26,7 @@ public:
 	string getTexto();
 	Inimigo getInimigo() const;
 	bool getPermiteFugir();
+	int getNivel();
 	
 private:
 	int id;

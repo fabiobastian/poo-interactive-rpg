@@ -19,6 +19,7 @@ public:
 	vector<Cena> getCenas() const;
 	static vector<Jogo> findAll();
 	int getId() const;
+	void adicionarCenaVisitada(Cena& cena);
 
 private:
 	int id;

@@ -171,3 +171,13 @@ int Jogo::getId() const
 {
     return this->id;
 }
+
+void Jogo::adicionarCenaVisitada(Cena& cena)
+{
+    for (const auto& it : this->cenasVisitadas) {
+        if (it.getId() == cena.getId()) {
+            return;
+        }
+    }
+    this->cenasVisitadas.push_back(cena);
+}

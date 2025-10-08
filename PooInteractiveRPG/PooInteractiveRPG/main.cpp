@@ -24,28 +24,14 @@ void iniciarNovoJogo();
 int retornoProximoId(const string&);
 Jogador criarJogador();
 Jogo carregarJogo();
-void continuarJogo(Jogo jogo);
+void continuarJogo(Jogo& jogo);
+void carregarCena(int id, Jogo& jogo);
+bool jogadorPossuiItem(Jogador& jogador, const Item& itemNecessario);
+void iniciarCombate(Jogo& jogo, Inimigo& inimigo);
+bool aplicarDano(Personagem& atacante, Personagem& alvo, float dano, bool atacanteEhJogador, Jogo& jogo);
 
 int main()
 {
-	Jogo jogo = Jogo::deserialize(Jogo::findById(1));
-	cout << "JOGO";
-	cout << "\n" + jogo.serialize();
-
-	Jogador jogador = jogo.getJogador();
-	cout << "\nJOGADOR";
-	cout << "\n" + jogador.serialize();
-
-	Inventario inventario = jogador.getInventario();
-	cout << "\nINVENTARIO";
-	cout << "\n" + inventario.serialize();
-
-	vector<Item> itens = inventario.getItens();
-	cout << "\nQTD";
-	cout << "\n" + to_string(itens.size());
-	cout << "\n" + itens[0].serialize();
-	cout << "\n" + itens[1].serialize();
-
 	telaInicial();
 
 	return 0;
@@ -77,10 +63,12 @@ void telaInicial()
 			cout << "Novo jogo iniciado!\n";
 			iniciarNovoJogo();
 			break;
-		case 2:
+		case 2: {
 			cout << "Carregando jogo...\n";
-			continuarJogo(carregarJogo());
+			Jogo jogo = carregarJogo();
+			continuarJogo(jogo);
 			break;
+		}	
 		case 3:
 			cout << "Exibindo créditos...\n";
 			break;
@@ -95,9 +83,10 @@ void telaInicial()
 void iniciarNovoJogo()
 {
 	Jogador jogador = criarJogador();
-	Jogo jogo = Jogo(retornoProximoId(FILE_JOGO), jogador, {Cena::deserialize(Cena::findById(1))});
+	Jogo jogo = Jogo(retornoProximoId(FILE_JOGO), jogador, {});
 
 	// jogo.save(); // Deixar comentado por enquanto, não ficar salvando um monte de personagens
+	continuarJogo(jogo);
 }
 
 Jogador criarJogador() {
@@ -206,12 +195,205 @@ Jogo carregarJogo() {
 	return {};
 }
 
-void continuarJogo(Jogo jogo)
-{
-	cout << jogo.serialize();
-	// PAREI AQUI, se quiser continuar, fazer equema para jogar ele na tela 1
-	// E após isso ir carregando as proximas telas, batalhar e afins
+void continuarJogo(Jogo& jogo) {
+	if (jogo.getCenas().empty()) {
+		carregarCena(1, jogo);
+	}
+	vector<Cena> cenas = jogo.getCenas();
+	// Basicamente se já foi visitado as cenas, pega a ultima cena salva
+	carregarCena(cenas[cenas.size() - 1].getId(), jogo);
 }
+
+void carregarCena(int id, Jogo& jogo) {
+	Jogador jogador = jogo.getJogador();
+	Cena cena = Cena::deserialize(Cena::findById(id));
+
+	// Cabeçalho dependendo do tipo
+	cout << "========================================\n";
+	if (cena.getTipoCena() == 'B') {
+		cout << "CENA (BATALHA)" << "\n";
+		cout << "Nome inimigo: " << cena.getInimigo().getNome() << "\n";
+		cout << "Nivel inimigo:" << to_string(cena.getInimigo().getNivel()) << "\n";
+	}
+	else {
+		cout << "CENA (DIALOGO)\n\n";
+	}
+
+	// Texto da cena
+	cout << cena.getTexto() << "\n\n";
+
+	vector<Decisao> decisoes = cena.getDecisoes();
+
+	if (decisoes.empty()) {
+		throw runtime_error("DADOS CORROMPIDOS.\n");
+		return;
+	}
+
+	// Listar decisões, marcando as bloqueadas por falta de item
+	cout << "Escolhas:\n";
+	for (size_t i = 0; i < decisoes.size(); ++i) {
+		Decisao decisao = decisoes[i];
+		bool pode = jogadorPossuiItem(jogador, decisao.getItemNescessario());
+
+		cout << (i + 1) << ") " << decisao.getTexto();
+		if (!pode) {
+			// Exibe qual item é necessário (se tiver nome)
+			if (!decisao.getItemNescessario().getNome().empty()) {
+				cout << "  [BLOQUEADO - necessita: " << decisao.getItemNescessario().getNome() << "]";
+			}
+			else {
+				cout << "  [BLOQUEADO - item necessário]";
+			}
+		}
+		cout << "\n";
+	}
+
+	// Ler escolha do usuário (apenas números entre 1 a n)
+	int escolha = 0;
+	while (true) {
+
+		if (!(cin >> escolha)) {
+			cout << "Entrada inválida. Digite um número.\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			continue;
+		}
+
+		if (escolha < 1 || escolha > decisoes.size()) {
+			cout << "Escolha inválida. Digite um número entre 1 e " << decisoes.size() << ".\n";
+			continue;
+		}
+
+		const Decisao& decisao = decisoes[escolha - 1];
+		if (!jogadorPossuiItem(jogador, decisao.getItemNescessario())) {
+			cout << "Você não possui o item necessário para essa escolha.\n";
+			// pode permitir tentar outra escolha ou permitir cancelar — aqui pedimos nova escolha
+			continue;
+		}
+
+		if (cena.getTipoCena() == 'B') {
+			Inimigo inimigo = cena.getInimigo();
+
+			if (decisao.getId() == 5) {
+				cout << "Você decidiu iniciar o combate, boa sorte!!.\n\n";
+				iniciarCombate(jogo, inimigo);
+			}
+
+			if (decisao.getId() == 6) {
+				if (!cena.getPermiteFugir()) {
+					cout << "Você não conseguiu escapar, terá que lutar pela vida.\n\n";
+					iniciarCombate(jogo, inimigo);
+				}
+			}
+		}
+		
+		jogo.adicionarCenaVisitada(cena);
+		//jogo.save();
+
+		cout << "Carregando próxima cena: " << to_string(decisao.getIdProximaCena()) << "...\n\n";
+		carregarCena(decisao.getIdProximaCena(), jogo); // recursão simples
+		break;
+	}
+}
+
+// Helper para checar se jogador possui o item (verifique sua representação de inventário)
+bool jogadorPossuiItem(Jogador& jogador, const Item& itemNecessario) {
+	if (itemNecessario.getNome().empty()) {
+		return true; // sem item necessário
+	}
+	vector<Item> itensJogador = jogador.getInventario().getItens();
+	for (size_t i = 0; i < itensJogador.size(); ++i) {
+		if (itensJogador[i].getId() == itemNecessario.getId()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void iniciarCombate(Jogo& jogo, Inimigo& inimigo) {
+	Jogador jogador = jogo.getJogador();
+
+	cout << "=== Combate iniciado: " << jogador.getNome()
+		<< " vs " << inimigo.getNome() << " ===\n\n";
+
+	while (true) {
+		cout << jogador.getNome() << "  |  Energia: " << jogador.getEnergia() << "\n";
+		cout << inimigo.getNome() << "  |  Energia: " << inimigo.getEnergia() << "\n\n";
+
+		cout << "Ação do jogador:\n";
+		cout << "1) Atacar\n";
+		cout << "2) Usar SORTE neste turno\n";
+		cout << "Escolha (1/2): ";
+		int escolha = 1;
+		if (!(cin >> escolha)) {
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			escolha = 1;
+		}
+
+		bool usouSorte = (escolha == 2);
+		bool sorteBemSucedida = false;
+
+		if (usouSorte) {
+			sorteBemSucedida = jogador.testarSorte();
+			cout << (sorteBemSucedida ? "Sorte funcionou!\n" : "Sorte falhou!\n");
+		}
+
+		float ataqueJogador = jogador.atacar();
+		float ataqueInimigo = inimigo.atacar();
+
+		cout << jogador.getNome() << " ataca com força " << ataqueJogador
+			<< " | " << inimigo.getNome() << " ataca com força " << ataqueInimigo << "\n";
+
+		// --- define quem ataca primeiro ---
+		bool jogadorPrimeiro = ataqueJogador >= ataqueInimigo;
+
+
+		// --- primeiro ataque ---
+		if (jogadorPrimeiro) {
+			float dano = ataqueJogador;
+			if (usouSorte && sorteBemSucedida) dano *= 2; // sorte dobra dano
+			if (aplicarDano(jogador, inimigo, dano, true, jogo)) break;
+
+			// inimigo contra-ataca
+			dano = ataqueInimigo;
+			if (usouSorte && !sorteBemSucedida) dano *= 1.5; // se usou sorte e perdeu, 1.5 dano recebido
+			if (aplicarDano(inimigo, jogador, dano, false, jogo)) return;
+		}
+		else {
+			// inimigo ataca primeiro
+			float dano = ataqueInimigo;
+			if (usouSorte && !sorteBemSucedida) dano *= 1.5; // sorte duplica dano recebido
+			if (aplicarDano(inimigo, jogador, dano, false, jogo)) return;
+
+			// jogador revida
+			dano = ataqueJogador;
+			if (usouSorte && sorteBemSucedida) dano *= 2; // sorte dobra dano
+			if (aplicarDano(jogador, inimigo, dano, true, jogo)) break;
+		}
+
+		cout << "\n--- Próximo round ---\n\n";
+	}
+}
+
+bool aplicarDano(Personagem& atacante, Personagem& alvo, float dano, bool atacanteEhJogador, Jogo& jogo) {
+	cout << atacante.getNome() << " acerta e causa " << dano << " de dano!\n";
+	alvo.tomarDano(dano);
+
+	if (alvo.getEnergia() <= 0) {
+		cout << "\n" << alvo.getNome() << " foi derrotado!\n";
+		if (atacanteEhJogador) {
+			cout << "Você venceu o combate!\n";
+		}
+		else {
+			cout << "Você perdeu o jogo, voltará da última cena conquistada.\n\n";
+			continuarJogo(jogo);
+		}
+		return true;
+	}
+	return false;
+};
+
 
 int retornoProximoId(const string& nomeArquivo) {
 	ifstream file(nomeArquivo);
