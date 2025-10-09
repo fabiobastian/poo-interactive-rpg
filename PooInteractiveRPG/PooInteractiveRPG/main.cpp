@@ -27,8 +27,8 @@ Jogo carregarJogo();
 void continuarJogo(Jogo& jogo);
 void carregarCena(int id, Jogo& jogo);
 bool jogadorPossuiItem(Jogador& jogador, const Item& itemNecessario);
-void iniciarCombate(Jogo& jogo, Inimigo& inimigo);
-bool aplicarDano(Personagem& atacante, Personagem& alvo, float dano, bool atacanteEhJogador, Jogo& jogo);
+bool iniciarCombate(Jogador jogador, Inimigo inimigo);
+void abrirInventario(Jogador& jogador);
 
 int main()
 {
@@ -271,19 +271,33 @@ void carregarCena(int id, Jogo& jogo) {
 			continue;
 		}
 
+		bool venceu = false;
 		if (cena.getTipoCena() == 'B') {
 			Inimigo inimigo = cena.getInimigo();
 
 			if (decisao.getId() == 5) {
 				cout << "Você decidiu iniciar o combate, boa sorte!!.\n\n";
-				iniciarCombate(jogo, inimigo);
+				venceu = iniciarCombate(jogador, inimigo);
 			}
 
-			if (decisao.getId() == 6) {
+			else if (decisao.getId() == 6) {
 				if (!cena.getPermiteFugir()) {
 					cout << "Você não conseguiu escapar, terá que lutar pela vida.\n\n";
-					iniciarCombate(jogo, inimigo);
+					venceu = iniciarCombate(jogador, inimigo);
 				}
+			}
+
+			if (venceu) {
+				jogador.getInventario().adicionarMantimento(inimigo.getQuantidadeMantimentos());
+				jogador.getInventario().adicionarTesouro(100);
+				auto itensInimigo = inimigo.getItens();
+				for (auto& item : itensInimigo) {
+					jogador.getInventario().adicionarItem(item);
+				}
+			}
+			else {
+				cout << "Você perdeu o jogo, voltará da última cena conquistada.\n\n";
+				continuarJogo(jogo);
 			}
 		}
 		
@@ -310,9 +324,8 @@ bool jogadorPossuiItem(Jogador& jogador, const Item& itemNecessario) {
 	return false;
 }
 
-void iniciarCombate(Jogo& jogo, Inimigo& inimigo) {
-	Jogador jogador = jogo.getJogador();
-
+// Retorna true se o jogador venceu, false se perdeu.
+bool iniciarCombate(Jogador jogador, Inimigo inimigo) {
 	cout << "=== Combate iniciado: " << jogador.getNome()
 		<< " vs " << inimigo.getNome() << " ===\n\n";
 
@@ -323,12 +336,18 @@ void iniciarCombate(Jogo& jogo, Inimigo& inimigo) {
 		cout << "Ação do jogador:\n";
 		cout << "1) Atacar\n";
 		cout << "2) Usar SORTE neste turno\n";
+		cout << "3) Abrir inventario\n";
 		cout << "Escolha (1/2): ";
-		int escolha = 1;
+		int escolha = 0;
 		if (!(cin >> escolha)) {
 			cin.clear();
 			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			escolha = 1;
+			escolha = 1; // em caso de erro Ataca
+		}
+
+		if (escolha == 3) {
+			abrirInventario(jogador);
+			continue;
 		}
 
 		bool usouSorte = (escolha == 2);
@@ -339,60 +358,63 @@ void iniciarCombate(Jogo& jogo, Inimigo& inimigo) {
 			cout << (sorteBemSucedida ? "Sorte funcionou!\n" : "Sorte falhou!\n");
 		}
 
+		// Calcula forças de ataque base
 		float ataqueJogador = jogador.atacar();
 		float ataqueInimigo = inimigo.atacar();
+
+		// Aplica modificadores de sorte
+		if (usouSorte && sorteBemSucedida) {
+			ataqueJogador *= 2.0f; // sorte dobra dano do jogador
+		}
+		if (usouSorte && !sorteBemSucedida) {
+			ataqueInimigo *= 1.5f; // sorte falha => inimigo causa mais dano recebido pelo jogador
+		}
 
 		cout << jogador.getNome() << " ataca com força " << ataqueJogador
 			<< " | " << inimigo.getNome() << " ataca com força " << ataqueInimigo << "\n";
 
-		// --- define quem ataca primeiro ---
+		// Decide quem "ataca primeiro" apenas para fins de print/ordem de mensagem
 		bool jogadorPrimeiro = ataqueJogador >= ataqueInimigo;
 
-
-		// --- primeiro ataque ---
+		// Ambos tomam dano neste round (ambos são afetados), mas mostramos quem "acertou" primeiro
 		if (jogadorPrimeiro) {
-			float dano = ataqueJogador;
-			if (usouSorte && sorteBemSucedida) dano *= 2; // sorte dobra dano
-			if (aplicarDano(jogador, inimigo, dano, true, jogo)) break;
+			cout << jogador.getNome() << " acerta primeiro e causa " << inimigo.tomarDano(ataqueJogador) << " de dano!\n";
 
-			// inimigo contra-ataca
-			dano = ataqueInimigo;
-			if (usouSorte && !sorteBemSucedida) dano *= 1.5; // se usou sorte e perdeu, 1.5 dano recebido
-			if (aplicarDano(inimigo, jogador, dano, false, jogo)) return;
+			cout << inimigo.getNome() << " revida e causa " << jogador.tomarDano(ataqueInimigo) << " de dano!\n";
 		}
 		else {
-			// inimigo ataca primeiro
-			float dano = ataqueInimigo;
-			if (usouSorte && !sorteBemSucedida) dano *= 1.5; // sorte duplica dano recebido
-			if (aplicarDano(inimigo, jogador, dano, false, jogo)) return;
+			cout << inimigo.getNome() << " acerta primeiro e causa " << jogador.tomarDano(ataqueInimigo) << " de dano!\n";
 
-			// jogador revida
-			dano = ataqueJogador;
-			if (usouSorte && sorteBemSucedida) dano *= 2; // sorte dobra dano
-			if (aplicarDano(jogador, inimigo, dano, true, jogo)) break;
+			cout << jogador.getNome() << " revida e causa " << inimigo.tomarDano(ataqueJogador) << " de dano!\n";
+		}
+
+		// Estado após o round
+		cout << "\nEstado pós-round:\n";
+		cout << jogador.getNome() << " -> Energia: " << jogador.getEnergia() << "\n";
+		cout << inimigo.getNome() << " -> Energia: " << inimigo.getEnergia() << "\n\n";
+
+		// Verifica condições de vitória/derrota
+		bool jogadorMorreu = jogador.getEnergia() <= 0.0f;
+		bool inimigoMorreu = inimigo.getEnergia() <= 0.0f;
+
+		if (inimigoMorreu && !jogadorMorreu) {
+			cout << "\n" << inimigo.getNome() << " foi derrotado!\n";
+			cout << "Você venceu o combate!\n";
+			return true; // jogador venceu
+		}
+		else if (jogadorMorreu) {
+			// Caso o jogador tenha morrido (mesmo se inimigo também morreu), consideramos derrota do jogador
+			cout << "\n" << jogador.getNome() << " foi derrotado!\n";
+			return false; // jogador perdeu
 		}
 
 		cout << "\n--- Próximo round ---\n\n";
 	}
 }
 
-bool aplicarDano(Personagem& atacante, Personagem& alvo, float dano, bool atacanteEhJogador, Jogo& jogo) {
-	cout << atacante.getNome() << " acerta e causa " << dano << " de dano!\n";
-	alvo.tomarDano(dano);
-
-	if (alvo.getEnergia() <= 0) {
-		cout << "\n" << alvo.getNome() << " foi derrotado!\n";
-		if (atacanteEhJogador) {
-			cout << "Você venceu o combate!\n";
-		}
-		else {
-			cout << "Você perdeu o jogo, voltará da última cena conquistada.\n\n";
-			continuarJogo(jogo);
-		}
-		return true;
-	}
-	return false;
-};
+void abrirInventario(Jogador& jogador) {
+	cout << jogador.getInventario().serialize() << "\n\n";
+}
 
 
 int retornoProximoId(const string& nomeArquivo) {

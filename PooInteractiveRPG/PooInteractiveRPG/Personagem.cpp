@@ -18,9 +18,9 @@ float Personagem::atacar() const
     return this->habilidade;
 }
 
-float Personagem::atacar(float multiplicador)
+float Personagem::atacar()
 {
-    return this->habilidade * multiplicador;
+    return this->habilidade;
 }
 
 float Personagem::tomarDano(float danoBruto)
@@ -29,7 +29,8 @@ float Personagem::tomarDano(float danoBruto)
     {
         return 0.0f;
     }
-    return this->energia - danoBruto;
+    this->energia -= danoBruto;
+    return danoBruto;
 }
 
 string Personagem::getNome() const

@@ -10,7 +10,7 @@ public:
 	~Personagem();
 	Personagem(int id, string nome, float habilidade, float energia, float sorte);
 	float atacar() const;
-	virtual float atacar(float multiplicador = 1.0f);
+	virtual float atacar();
 	virtual float tomarDano(float danoBruto);
 	string getNome() const;
 	float getEnergia() const;

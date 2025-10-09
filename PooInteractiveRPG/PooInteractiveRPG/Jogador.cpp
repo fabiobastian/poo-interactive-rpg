@@ -142,14 +142,20 @@ int Jogador::getId() const
     return this->id;
 }
 
-float Jogador::atacar(float multiplicador)
+float Jogador::atacar()
 {
-    return (this->habilidade + this->inventario.getArmaEquipada().getBonus()) * multiplicador;
+    return (this->habilidade + this->inventario.getArmaEquipada().getBonus());
 }
 
 float Jogador::tomarDano(float danoBruto)
 {
-    return this->energia -= (this->inventario.getArmaduraEquipada().getBonus() + danoBruto);
+    if (danoBruto < 0)
+    {
+        return 0.0f;
+    }
+    float danoTomado = abs((this->inventario.getArmaduraEquipada().getBonus() - danoBruto));
+    this->energia -= danoTomado;
+    return danoTomado;
 }
 
 bool Jogador::testarSorte()

@@ -14,7 +14,7 @@ public:
 	void save() const;
 	Inventario& getInventario(); // &Inventario retorna a referencia não uma copia 
 	int getId() const;
-	float atacar(float multiplicador = 1.0f) override;
+	float atacar() override;
 	float tomarDano(float danoBruto) override;
 	bool testarSorte();
 
