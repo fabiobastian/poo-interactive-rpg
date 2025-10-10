@@ -29,6 +29,7 @@ void carregarCena(int id, Jogo& jogo);
 bool jogadorPossuiItem(Jogador& jogador, const Item& itemNecessario);
 bool iniciarCombate(Jogador jogador, Inimigo inimigo);
 void abrirInventario(Jogador& jogador);
+void exibirCreditos();
 
 int main()
 {
@@ -70,7 +71,7 @@ void telaInicial()
 			break;
 		}	
 		case 3:
-			cout << "Exibindo créditos...\n";
+			exibirCreditos();
 			break;
 		default:
 			cout << "Opção inválida!\n";
@@ -85,7 +86,7 @@ void iniciarNovoJogo()
 	Jogador jogador = criarJogador();
 	Jogo jogo = Jogo(retornoProximoId(FILE_JOGO), jogador, {});
 
-	// jogo.save(); // Deixar comentado por enquanto, não ficar salvando um monte de personagens
+	jogo.save(); // Deixar comentado por enquanto, não ficar salvando um monte de personagens
 	continuarJogo(jogo);
 }
 
@@ -302,7 +303,7 @@ void carregarCena(int id, Jogo& jogo) {
 		}
 		
 		jogo.adicionarCenaVisitada(cena);
-		//jogo.save();
+		jogo.save();
 
 		cout << "Carregando próxima cena: " << to_string(decisao.getIdProximaCena()) << "...\n\n";
 		carregarCena(decisao.getIdProximaCena(), jogo); // recursão simples
@@ -416,6 +417,17 @@ void abrirInventario(Jogador& jogador) {
 	cout << jogador.getInventario().serialize() << "\n\n";
 }
 
+void exibirCreditos() {
+	cout << "\n=== CREDITOS ===\n";
+	cout << "Disciplina: Algoritmos e Programação: Orientação a Objetos\n";
+	cout << "Proposta: Interactive eBook\n";
+	cout << "Professor: Marcio Garcia Martins\n";
+	cout << "Dev: Fábio J. N. Bastian\n";
+	cout << "Dev: Luiza Santos de Souza\n";
+	cout << "\nDigite ENTER para retornar ao menu inicial...\n";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cin.get();
+}
 
 int retornoProximoId(const string& nomeArquivo) {
 	ifstream file(nomeArquivo);
