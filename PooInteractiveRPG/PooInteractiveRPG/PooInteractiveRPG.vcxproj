@@ -131,7 +131,6 @@
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
     <ClInclude Include="Personagem.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cena.cpp" />

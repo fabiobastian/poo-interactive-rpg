@@ -15,7 +15,6 @@ public:
 	static vector<Decisao> findAllByIds(string data);
 	static Decisao deserialize(const string& data);
 	static string findById(int id);
-	static Decisao decisaoVazio();
 
 	//getters
 	int getId() const;

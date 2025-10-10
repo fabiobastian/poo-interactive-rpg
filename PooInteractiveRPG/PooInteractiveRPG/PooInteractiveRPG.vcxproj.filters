@@ -42,9 +42,6 @@
     <ClInclude Include="Jogo.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Personagem.cpp">

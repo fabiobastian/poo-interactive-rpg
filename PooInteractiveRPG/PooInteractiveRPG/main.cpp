@@ -86,7 +86,7 @@ void iniciarNovoJogo()
 	Jogador jogador = criarJogador();
 	Jogo jogo = Jogo(retornoProximoId(FILE_JOGO), jogador, {});
 
-	jogo.save(); // Deixar comentado por enquanto, não ficar salvando um monte de personagens
+	jogo.save();
 	continuarJogo(jogo);
 }
 
@@ -238,7 +238,7 @@ void carregarCena(int id, Jogo& jogo) {
 
 		cout << (i + 1) << ") " << decisao.getTexto();
 		if (!pode) {
-			// Exibe qual item é necessário (se tiver nome)
+			// Exibe qual item é necessário
 			if (!decisao.getItemNescessario().getNome().empty()) {
 				cout << "  [BLOQUEADO - necessita: " << decisao.getItemNescessario().getNome() << "]";
 			}
@@ -268,7 +268,7 @@ void carregarCena(int id, Jogo& jogo) {
 		const Decisao& decisao = decisoes[escolha - 1];
 		if (!jogadorPossuiItem(jogador, decisao.getItemNescessario())) {
 			cout << "Você não possui o item necessário para essa escolha.\n";
-			// pode permitir tentar outra escolha ou permitir cancelar — aqui pedimos nova escolha
+			// pode permitir tentar outra escolha ou permitir cancelar
 			continue;
 		}
 
@@ -311,7 +311,7 @@ void carregarCena(int id, Jogo& jogo) {
 	}
 }
 
-// Helper para checar se jogador possui o item (verifique sua representação de inventário)
+// Helper para checar se jogador possui o item
 bool jogadorPossuiItem(Jogador& jogador, const Item& itemNecessario) {
 	if (itemNecessario.getNome().empty()) {
 		return true; // sem item necessário
@@ -444,7 +444,7 @@ int retornoProximoId(const string& nomeArquivo) {
 		string idStr;
 		getline(iss, idStr, ';');
 
-		return stoi(idStr) + 1; // converte para int
+		return stoi(idStr) + 1;
 
 	}
 

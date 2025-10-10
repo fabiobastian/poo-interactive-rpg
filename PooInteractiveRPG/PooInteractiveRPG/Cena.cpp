@@ -78,9 +78,7 @@ Cena Cena::deserialize(const string& data)
         partes[3],          //texto
         inimigo,            
         permiteFugir,
-        decisoes /*stoi(partes[6])*/
-        // exemplo 15;8;B;Dragão adulto guarda o castelo final.;14,20,25;18;0
- 
+        decisoes
     );
 }
 
@@ -180,49 +178,3 @@ vector<Cena> Cena::findAllByIds(string data)
 
     return cenas;
 }
-
-
-/*
-void Cena::carregarCenaDoArquivo(const std::string& txtCena) {
-    std::ifstream file(txtCena);
-    if (!file) {
-        std::cerr << "Erro: não consegui abrir " << txtCena << std::endl;
-        return;
-    }
-
-    std::string line;
-    texto = "";
-    decisoes.clear();
-
-    while (std::getline(file, line)) {
-        if (line.rfind("#", 0) == 0) {
-            // linha de decisão (#2: texto)
-            size_t colon = line.find(':');
-            if (colon != std::string::npos) {
-                int idDecisao = std::stoi(line.substr(1, colon - 1));
-                int idProximaCena = std::stoi(line.substr(1, colon - 1));
-                std::string texto = line.substr(colon + 1);
-                Decisao carregarDecisaoDoArquivo(idDecisao, texto, idProximaCena);
-                decisoes.push_back(carregarDecisaoDoArquivo);
-            }
-            else {
-                id = std::stoi(line.substr(1));
-            }
-        }
-        else if (line.rfind("I:", 0) == 0) {
-            // linha de item: I: chave;c;0;0;0
-            std::stringstream ss(line.substr(2));
-            std::string chave;
-            char tipo;
-            int a, b, c;
-            char sep;
-
-
-        }
-        else {
-            // linha de descrição
-            texto += line + "\n";
-        }
-    }
-}
-*/

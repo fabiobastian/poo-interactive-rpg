@@ -119,9 +119,3 @@ Decisao Decisao::deserialize(const string& data)
         item                // itemNecessario
     );
 }
-
-//teste
-Decisao Decisao::decisaoVazio() {
-    Item item = Item::deserialize(Item::findById(1));
-    return Decisao(1,"teste", 1, item);
-}

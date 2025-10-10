@@ -19,12 +19,6 @@ Inimigo::Inimigo(){
     itens = {};
 }
 
-Inimigo Inimigo::InimigoVazio() {
-    Inimigo inimigoVazio = Inimigo();
-
-    return inimigoVazio;
-}
-
 Inimigo::~Inimigo(){}
 
 int Inimigo::getId() const
